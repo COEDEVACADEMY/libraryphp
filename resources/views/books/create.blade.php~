@@ -1,0 +1,46 @@
+@extends('layouts.app')
+
+@section('content')
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Create Book</div>
+
+                    <div class="card-body">
+                        <form action="{{ route('books.store') }}" method="POST">
+                            @csrf
+                            <div class="form-group">
+                                <label for="title">Name</label>
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="title" name="title" value="{{ old('titile') }}" required>
+                                @error('title')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="author">Author</label>
+                                <input type="text" class="form-control @error('author') is-invalid @enderror" id="author" name="author" value="{{ old('author') }}" required>
+                                @error('author')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="category">Category</label>
+                                <select name="category" id="category_id" class="form-control @error('category') is-invalid @enderror" required>
+                                    <option value="" disabled selected>Select category</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}" {{ old('category') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('category_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <button type="submit" class="btn btn-primary">Create</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
